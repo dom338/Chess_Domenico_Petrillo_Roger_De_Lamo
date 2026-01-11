@@ -328,7 +328,7 @@ void PromoteIfNeeded(Board& board, int raw, int col)
     }
     if (board[raw][col] == 'p' && raw == 7)
     {
-        board[raw][col] == 'q';
+        board[raw][col] = 'q';
     }
 }
 
