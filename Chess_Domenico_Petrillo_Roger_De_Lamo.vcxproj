@@ -123,10 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Chess_Domenico_Petrillo_Roger_De_Lamo.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveLogic.cpp" />
+    <ClCompile Include="PieceMoves.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="MoveLogic.h" />
+    <ClInclude Include="PieceMoves.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

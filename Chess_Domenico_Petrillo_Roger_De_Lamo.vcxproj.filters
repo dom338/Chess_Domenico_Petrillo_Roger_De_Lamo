@@ -15,12 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Chess_Domenico_Petrillo_Roger_De_Lamo.cpp">
+    <ClCompile Include="main.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveLogic.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="PieceMoves.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="MoveLogic.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceMoves.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
