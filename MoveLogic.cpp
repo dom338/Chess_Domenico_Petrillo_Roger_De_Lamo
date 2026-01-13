@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MoveLogic.h"
+#include "PieceMoves.h" // to use ValidMoveForPiece
 
 bool gameOver = false;
 char winner = ' ';
@@ -73,4 +74,85 @@ void PrintBoard(const Board& board) {
         std::cout << 8 - row << '\n';
     }
     std::cout << "  1 2 3 4 5 6 7 8\n";
+}
+
+//Find the king position
+void FindKing(const Board& board, bool whiteTurn, int& kingX, int& kingY) {
+    char kingChar = whiteTurn ? 'K' : 'k';
+    kingX = -1;
+    kingY = -1;
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x) {
+            if (board[y][x] == kingChar) {
+                kingX = x;
+                kingY = y;
+                return;
+            }
+        }
+    }
+}
+
+//Check if a square is under attack by opponent pieces
+// This variable setup was assisted by AI
+bool SquareUnderAttack(const Board& board, int targetX, int targetY, bool byWhite) {
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x) {
+            char piece = board[y][x];
+            if (IsEmptySquare(piece)) continue;
+            if (byWhite && !IsWhitePiece(piece)) continue;
+            if (!byWhite && !IsBlackPiece(piece)) continue;
+
+            if (ValidMoveForPiece(board, y, x, targetY, targetX, byWhite)) return true;
+        }
+    }
+    return false;
+}
+
+//Check if the king is in check
+bool KingCheck(const Board& board, bool whiteTurn) {
+    int kingX, kingY;
+    FindKing(board, whiteTurn, kingX, kingY);
+    if (kingX == -1) return false;
+    return SquareUnderAttack(board, kingX, kingY, !whiteTurn);
+}
+
+//Check if there is any valid move for the current player
+bool AnyMove(Board& board, bool whiteTurn) {
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x) {
+            char piece = board[y][x];
+            if (IsEmptySquare(piece)) continue;
+            if (whiteTurn && !IsWhitePiece(piece)) continue;
+            if (!whiteTurn && !IsBlackPiece(piece)) continue;
+
+            for (int ty = 0; ty < 8; ++ty) {
+                for (int tx = 0; tx < 8; ++tx) {
+                    if (ValidMoveForPiece(board, y, x, ty, tx, whiteTurn)) {
+                        Board tempBoard = board;
+                        char captured = tempBoard[ty][tx];
+                        tempBoard[ty][tx] = tempBoard[y][x];
+                        tempBoard[y][x] = '*';
+
+                        // If king is not in check after move, it's legal
+                        if (!KingCheck(tempBoard, whiteTurn)) return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+//Check for checkmate and update winner
+bool Checkmate(Board& board, bool whiteTurn) {
+    if (KingCheck(board, whiteTurn)) {
+        if (!AnyMove(board, whiteTurn)) {
+            gameOver = true;
+            std::cout << "Checkmate! " << (whiteTurn ? "Black" : "White") << " wins!\n";
+        }
+        else {
+            std::cout << (whiteTurn ? "White" : "Black") << " is in check!\n";
+        }
+    }
+    return gameOver;
 }

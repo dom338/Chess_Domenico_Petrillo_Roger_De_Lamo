@@ -1,6 +1,7 @@
 #pragma once
 #include "MoveLogic.h"
 
+extern char winner;
 // Path checks
 bool IsThePathClearStraight(const Board& board, int row1, int col1, int row2, int col2);
 bool IsThePathClearDiagonal(const Board& board, int row1, int col1, int row2, int col2);

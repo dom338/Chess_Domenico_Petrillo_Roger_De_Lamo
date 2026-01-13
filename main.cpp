@@ -9,9 +9,15 @@ int main() {
     bool whiteTurn = true;
     int x1, y1, x2, y2, row1, col1, row2, col2;
 
-    std::cout << "To make a move enter the coordinates in the format x1 y1 x2 y2\n";
-    std::cout << "Where (x1,y1) are the coordinates of the piece to move and (x2,y2) are the destination coordinates\n";
-    std::cout << "To exit the game enter 0\n";
+    std::cout << "HOW TO PLAY:\n";
+    std::cout << "- Enter your move using four numbers: x1 y1 x2 y2\n";
+    std::cout << "- (x1, y1) is the piece you want to move\n";
+    std::cout << "- (x2, y2) is the destination square\n";
+    std::cout << "- Columns go from 1 to 8 (left to right)\n";
+    std::cout << "- Rows go from 1 to 8 (bottom to top)\n";
+    std::cout << "- Example: 5 2 5 4 (move pawn from e2 to e4)\n\n";
+
+    std::cout << "Enter 0 at any time to exit the game.\n\n";
 
     while (!gameOver) {
         PrintBoard(chessboard);
@@ -30,7 +36,10 @@ int main() {
         }
 
         ApplyMove(chessboard, row1, col1, row2, col2);
-        if (!gameOver) whiteTurn = !whiteTurn;
+        Checkmate(chessboard, !whiteTurn);
+
+        if (!gameOver)
+            whiteTurn = !whiteTurn; // switch turn only if game continues
     }
 
     WinnerMessage();
